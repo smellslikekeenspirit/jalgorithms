@@ -1,3 +1,5 @@
+//finds largest axis-parallel rectangle in an axis-parallel polygon
+
 import java.util.Scanner;
 
 class Item {
