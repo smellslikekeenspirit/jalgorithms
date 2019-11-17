@@ -50,7 +50,7 @@ class LinkedList {
 
 public class ConnectGraph
 {
-    private int V;
+    private static int V;
     private LinkedList[] adj;
 
     public ConnectGraph(int v)
@@ -67,28 +67,17 @@ public class ConnectGraph
         adj[w].insert(v);
     }
 
-    public void DFSHelper(int v, boolean visited[])
+    public void DFS(int v, boolean visited[])
     {
         visited[v] = true;
         Node lst = adj[v].getHead();
         while(lst != null){
             if (!visited[lst.getItem()])
-                DFSHelper(lst.getItem(), visited);
+                DFS(lst.getItem(), visited);
             lst = lst.next;
 
         }
     }
-
-    public boolean[] DFS(int v)
-    {
-        boolean visited[] = new boolean[V+1];
-
-        DFSHelper(v, visited);
-        return visited;
-    }
-
-
-
 
     public static void main(String args[])
     {
@@ -100,12 +89,13 @@ public class ConnectGraph
         for (int i = 0; i<m; i++){
             graph.addEdge(scanner.nextInt(), scanner.nextInt());
         }
-        boolean[] visited = graph.DFS(1);
+        boolean visited[] = new boolean[V+1];
+        graph.DFS(1, visited);
         for (int i = 1; i<=n; i++){
             if (!visited[i]){
                 graph.addEdge(1, i);
                 k++;
-                visited = graph.DFS(i);
+                graph.DFS(i, visited);
             }
         }
 
