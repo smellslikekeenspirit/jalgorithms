@@ -41,7 +41,7 @@ public class CountShortestPaths {
                 if(!changed[current.target] || table[current.target] > table[currentVertex.id] + current.weight) {
                     table[current.target] = table[currentVertex.id] + current.weight;
                     changed[current.target] = true;
-                    paths[current.target] = 1;
+                    paths[current.target] = paths[currentIndex];
                     if(!inList[current.target]) {
                         end.next = new ALink(current.target, 0);
                         end = end.next;
@@ -49,7 +49,7 @@ public class CountShortestPaths {
                     }
                 } else if(table[current.target] == table[currentVertex.id] + current.weight) {
                     changed[current.target] = true;
-                    paths[current.target] += 1;
+                    paths[current.target] += paths[currentIndex];
                     if (!inList[current.target]) {
                         end.next = new ALink(current.target, 0);
                         end = end.next;
@@ -59,18 +59,18 @@ public class CountShortestPaths {
                 current = current.next;
             }
 
-            ALink movable = list.next;
-            ALink previous = list;
-            ALink minimum = list.next;
             if (list.target == currentIndex) {
                 list = list.next;
-                inList[currentIndex] = false;
+                if (list == null)
+                    break;
             }
+            ALink movable = list.next;
+            ALink previous = list;
+            ALink minimum = list;
 
             while(movable != null) {
                 if(movable.target == currentIndex) {
                     previous.next = movable.next;
-                    inList[currentIndex] = false;
                 }
                 else if(table[movable.target] < table[minimum.target]) {
                     minimum = movable;
